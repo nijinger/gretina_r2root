@@ -1,0 +1,28 @@
+#################################################
+#  This is a simple makefile for converting
+#  the raw data of E407 to root files
+#
+#  To run the program r2root in multiprocess
+#  using command 
+#  	make -j4
+#  4 means the make can use 4 processes at average
+#  you can change the number
+#
+#  Or rename the makefile to whatever and using 
+#  command 
+#       make -f whatever -j4
+#
+#  Lee   04/14/2014
+##################################################
+
+#replace the command by your program
+command = ./r2root
+first = 4 #326 # the runnum of the first file you want to convert
+last = 87 #516 # the runnum of the last file you want to convert
+num := $(shell seq $(first) $(last))
+TEFILE := $(addsuffix .ridf, ${num} )
+.PHONY : convert
+convert:${TEFILE}
+	@echo convert files:  ${TEFILE} done!
+%.ridf:
+	$(command) $(subst .ridf, , $@)

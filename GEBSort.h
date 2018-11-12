@@ -25,13 +25,17 @@
 
 #define TRACK2 1
 
-#define Q1 24
-#define Q3 17
-#define Q4 8
-#define Q5 25
-#define Q6 9
+#define Q1 6
+#define Q2 7
+#define Q3 22
+#define Q4 14
+#define Q5 26
+#define Q6 17
 #define Q7 19
 #define Q8 29
+#define Q9 24
+#define Q10 25
+#define Q11 21
 
 //#define Q1 0x10
 //#define Q2 0x13

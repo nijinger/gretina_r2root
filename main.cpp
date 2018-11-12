@@ -4,6 +4,7 @@
 #include <string.h>
 #include <assert.h>
 #include <ctime>
+#include <csignal>
 
 #include <iostream>
 #include <fstream>
@@ -17,6 +18,14 @@
 #define BUFLEN 10000
 
 using namespace std;
+
+bool runflag = 1;
+
+void signalHandler(int signum){
+
+    if(signum!=SIGINT) return;
+    runflag = 0;
+}
 
 int main(int argc, char** argv) {
   #ifndef SKIMCHICO
@@ -38,6 +47,8 @@ int main(int argc, char** argv) {
     cerr<<" Cannot open file "<<argv[1]<<endl;
     return 1;
   }
+
+  signal(SIGINT,signalHandler);
 
   GEBheader aGeb;
   unsigned char cBuf[BUFLEN];
@@ -61,7 +72,7 @@ int main(int argc, char** argv) {
 
   opf->cd();
   clock_t starttime = clock();
-  while(fread(&aGeb,sizeof(GEBheader),1,in)==1){
+  while(fread(&aGeb,sizeof(GEBheader),1,in)==1&&runflag){
     totread+=sizeof(GEBheader);
     if(aGeb.length>BUFLEN){
       cerr<<endl;

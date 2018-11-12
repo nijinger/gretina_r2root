@@ -744,7 +744,7 @@ void r2root::ProcessTKGamma(const BYTE *buf,GEBheader *header){
        case Q1:
          cry_id=1;
          break;
-       case Q8:
+       case Q2:
          cry_id=2;
          break;
        case Q3:
@@ -761,6 +761,18 @@ void r2root::ProcessTKGamma(const BYTE *buf,GEBheader *header){
          break;
        case Q7:
          cry_id=7;
+         break;
+       case Q8:
+         cry_id=8;
+         break;
+       case Q9:
+         cry_id=9;
+         break;
+       case Q10:
+         cry_id=10;
+         break;
+       case Q11:
+         cry_id=11;
          break;
        default:
          break;
@@ -801,7 +813,7 @@ void r2root::ProcessGamma(const BYTE *buf,GEBheader *header){
     case Q1:
       cry_id[ng]=1;
       break;
-    case Q8:
+    case Q2:
       cry_id[ng]=2;
       break;
     case Q3:
@@ -819,7 +831,18 @@ void r2root::ProcessGamma(const BYTE *buf,GEBheader *header){
     case Q7:
       cry_id[ng]=7;
       break;
-    default:
+    case Q8:
+      cry_id[ng]=8;
+      break;
+    case Q9:
+      cry_id[ng]=9;
+      break;
+    case Q10:
+      cry_id[ng]=10;
+      break;
+    case Q11:
+      cry_id[ng]=11;
+ default:
       break;
   }
   x[ng] = ( (crmat[detectorPosition][crystalNumber][0][0] * gev.intpts[nmax].x) +
@@ -868,11 +891,11 @@ void r2root::ReadGTCali(const char *GTCalib){
 void r2root::CalTimeDiff(){
   for(int i = 0;i<ng;i++){
     double tmpt = (double)cts[0]-(double)t[i];
-    dtpg[i] = tmpt-t0[i]+offt[i];
+    dtpg[i] = tmpt-t0[i]-offt[i];
   }
   for(int i = 0;i<ntg;i++){
     double tmpt = (double)cts[0]*10-(double)gtkts[i];
-    dtptg[i] = tmpt+offt[i]*10;
+    dtptg[i] = tmpt-gofft[i]*10;
   }
 }
 

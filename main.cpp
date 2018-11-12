@@ -42,12 +42,27 @@ int main(int argc, char** argv) {
 //  string dir = "../../1563x_track/";
 //  char filename[120];
 //  sprintf(filename,"%sRun%04dTK.dat",dir.c_str(),atoi(argv[1]));
-  FILE *in = fopen64(argv[1],"rb");
+  FILE *in ;
+  TString s = argv[1];
+  if(s=="STDIN"){
+      in = stdin;
+  }else {
+      in = fopen64(argv[1],"rb");
+  }
   if(!in){
     cerr<<" Cannot open file "<<argv[1]<<endl;
     return 1;
   }
 
+#ifdef GEB_HFC
+  TString s = argv[1];
+  s = "./GEB_HFC -p " + s;
+  in = popen(s.Data(), "r");
+  if(!in){
+      cerr << " Cannot open file "<<argv[1]<<endl;
+      return 1;
+  }
+#endif
   signal(SIGINT,signalHandler);
 
   GEBheader aGeb;
